@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app light>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -29,6 +29,7 @@
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>{{ `chevron_${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
+
       <!-- <v-btn icon @click.stop="clipped = !clipped">
         <v-icon>web</v-icon>
       </v-btn>
@@ -37,13 +38,14 @@
       </v-btn> -->
       <v-toolbar-title v-text="title" />
       <v-spacer />
+
       <!-- <v-btn>login </v-btn> -->
       <v-layout row justify-end>
-        <v-btn color="primary" dark @click.stop="dialog = true">
+        <v-btn color="primary" dark @click.stop="loginDialog = true">
           Login
         </v-btn>
-
-        <v-dialog v-model="dialog" max-width="400px">
+        <holiday-modal></holiday-modal>
+        <v-dialog v-model="loginDialog" max-width="400px">
           <v-card>
             <v-card-title class="headline">Login</v-card-title>
             <v-card-text>
@@ -99,8 +101,12 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, maxLength, email } from 'vuelidate/lib/validators'
+import HolidayModal from '~/components/holiday-modal.vue'
 
 export default {
+  components: {
+    HolidayModal
+  },
   mixins: [validationMixin],
 
   validations: {
@@ -111,7 +117,8 @@ export default {
     return {
       name: '',
       email: '',
-      dialog: false,
+      loginDialog: false,
+      holidayDialog: false,
       clipped: false,
       drawer: false,
       fixed: false,
